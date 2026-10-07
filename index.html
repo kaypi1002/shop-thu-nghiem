@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K'shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+
+      <div class="logo">
+        <span>k</span>Shop
+      </div>
+
+      <div class="search-box">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="キーワードから探す"
+          onkeydown="if(event.key === 'Enter') handleSearch()"
+        />
+        <button onclick="handleSearch()">検索</button>
+      </div>
+
+      <div class="header-links">
+
+        <button class="header-link" onclick="openLogin()">
+          ログイン
+        </button>
+
+        <button class="header-link" onclick="openRegister()">
+          会員登録
+        </button>
+
+        <div class="cart-icon" onclick="toggleCart()">
+          カート
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+
+      </div>
+
+    </div>
+  </header>
+
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="#" onclick="filterCategory('all'); return false;">スーパーDEAL</a>
+    <a href="#" onclick="filterCategory('all'); return false;">ランキング</a>
+    <a href="#" onclick="filterCategory('fashion'); return false;">ファッション</a>
+    <a href="#" onclick="filterCategory('electronics'); return false;">家電</a>
+    <a href="#" onclick="filterCategory('food'); return false;">食品</a>
+    <a href="#" onclick="filterCategory('all'); return false;">日用品</a>
+    <a href="#" onclick="filterCategory('all'); return false;">コスメ</a>
+    <a href="#" onclick="filterCategory('all'); return false;">本・ゲーム</a>
+  </nav>
+
+
+  <!-- MAIN -->
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <h3>カテゴリー</h3>
+
+      <ul>
+        <li onclick="filterCategory('all')">すべて</li>
+        <li onclick="filterCategory('electronics')">家電</li>
+        <li onclick="filterCategory('fashion')">ファッション</li>
+        <li onclick="filterCategory('food')">食品</li>
+      </ul>
+
+      <h3 style="margin-top:16px;">価格</h3>
+
+      <input
+        type="number"
+        id="maxPrice"
+        placeholder="上限価格"
+        class="price-input"
+      >
+
+      <button
+        class="btn btn-outline"
+        onclick="applyPriceFilter()"
+      >
+        絞り込む
+      </button>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- BANNER -->
+      <section class="banner">
+
+        <div class="banner-text">
+          <h2>スーパーSALE</h2>
+          <p>ポイント最大10倍！人気商品がお買い得。</p>
+        </div>
+
+        <div class="banner-tag">
+          本日限定
+        </div>
+
+      </section>
+
+
+      <!-- PRODUCTS -->
+      <section>
+
+        <div class="section-title">
+          おすすめ商品
+        </div>
+
+        <div
+          class="products-grid"
+          id="productList"
+        ></div>
+
+      </section>
+
+
+      <!-- CART -->
+      <section
+        id="cartSection"
+        style="display:none;"
+      >
+
+        <div class="section-title">
+          ショッピングカート
+        </div>
+
+        <div class="cart-panel">
+
+          <div id="cartItems"></div>
+
+          <div
+            class="cart-total"
+            id="cartTotal"
+          ></div>
+
+          <button
+            class="btn btn-primary"
+            onclick="checkout()"
+            id="checkoutButton"
+          >
+            購入手続きへ
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- LOGIN MODAL -->
+  <div
+    id="loginModal"
+    class="modal"
+    style="display:none;"
+  >
+
+    <div class="modal-content">
+
+      <button
+        class="modal-close"
+        onclick="closeLogin()"
+      >
+        ×
+      </button>
+
+      <h2>ログイン</h2>
+
+      <input
+        type="text"
+        id="username"
+        placeholder="ユーザー名"
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="パスワード"
+      >
+
+      <button
+        class="btn btn-primary login-button"
+        onclick="login()"
+      >
+        ログイン
+      </button>
+
+      <p id="message"></p>
+
+      <p class="login-help">
+        デモ用アカウント：admin / 1234
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- REGISTER MODAL -->
+  <div
+    id="registerModal"
+    class="modal"
+    style="display:none;"
+  >
+
+    <div class="modal-content">
+
+      <button
+        class="modal-close"
+        onclick="closeRegister()"
+      >
+        ×
+      </button>
+
+      <h2>新規会員登録</h2>
+
+      <input
+        type="text"
+        id="registerUsername"
+        placeholder="ユーザー名"
+      >
+
+      <input
+        type="email"
+        id="registerEmail"
+        placeholder="メールアドレス"
+      >
+
+      <input
+        type="password"
+        id="registerPassword"
+        placeholder="パスワード"
+      >
+
+      <button
+        class="btn btn-primary"
+        onclick="registerUser()"
+      >
+        会員登録
+      </button>
+
+      <p id="registerMessage"></p>
+
+    </div>
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    K'shop デモUI（学習用） - Anh Phuoc
+  </footer>
+
+
+  <!-- JAVASCRIPT -->
+  <script src="app.js"></script>
+
+</body>
+</html>
