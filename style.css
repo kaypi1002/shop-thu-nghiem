@@ -289,6 +289,7 @@ a {
   padding: 10px;
   cursor: pointer;
   transition: 0.2s;
+   min-width: 0;
 }
 
 .product-card:hover {
@@ -301,7 +302,7 @@ a {
 
 .product-img {
   height: 150px;
-  background: #eee;
+  background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -309,6 +310,13 @@ a {
   font-size: 13px;
   margin-bottom: 10px;
   border-radius: 3px;
+}
+
+.product-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 
@@ -564,9 +572,12 @@ a {
 
 @media (max-width: 900px) {
 
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
 
   .header-top {
     flex-wrap: wrap;

@@ -1,75 +1,31 @@
-// ======================================================
-// PRODUCTS
-// ======================================================
-
-const products = [
-  {
-    id: 1,
-    name: "iPhone 15 Pro",
-    price: 150000,
-    category: "electronics",
-    shop: "Apple公式ストア"
-  },
-  {
-    id: 2,
-    name: "AirPods Pro",
-    price: 38000,
-    category: "electronics",
-    shop: "Apple公式ストア"
-  },
-  {
-    id: 3,
-    name: "4K テレビ 55インチ",
-    price: 78000,
-    category: "electronics",
-    shop: "家電ショップA"
-  },
-  {
-    id: 4,
-    name: "メンズ パーカー",
-    price: 4500,
-    category: "fashion",
-    shop: "ファッションストアB"
-  },
-  {
-    id: 5,
-    name: "レディース ワンピース",
-    price: 6200,
-    category: "fashion",
-    shop: "ファッションストアC"
-  },
-  {
-    id: 6,
-    name: "北海道ラーメンセット",
-    price: 3200,
-    category: "food",
-    shop: "グルメ市場"
-  },
-  {
-    id: 7,
-    name: "お米 10kg",
-    price: 4200,
-    category: "food",
-    shop: "食品スーパーD"
-  },
-  {
-    id: 8,
-    name: "ゲーミングマウス",
-    price: 6800,
-    category: "electronics",
-    shop: "PCショップE"
-  }
-];
-
 
 // ======================================================
 // STATE
 // ======================================================
 
+let products = [];
 let filteredCategory = "all";
 let maxPriceFilter = null;
 let searchKeyword = "";
 let cart = [];
+
+async function loadProducts() {
+    try {
+        const response = await fetch("api/products.php");
+
+        if (!response.ok) {
+            throw new Error("商品データの取得に失敗しました。");
+        }
+
+        const data = await response.json();
+
+        console.log(data);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 
 // ======================================================
@@ -287,9 +243,11 @@ function productCardHTML(p) {
       onclick="viewDetail(${p.id})"
     >
 
-      <div class="product-img">
-        画像
-      </div>
+     
+<div class="product-img">
+  <img src="${p.image}" alt="${p.name}">
+</div>
+
 
       <div class="product-name">
         ${p.name}
@@ -560,20 +518,13 @@ function toggleCart() {
 
 function viewDetail(id) {
 
-  const p =
-    products.find(function (p) {
-      return p.id === id;
-    });
-
+  const p = products.find(function (p) {
+    return p.id === id;
+  });
 
   if (!p) return;
 
-
-  alert(
-    `${p.name}\n` +
-    `${p.price.toLocaleString()}円\n` +
-    `ショップ：${p.shop}`
-  );
+  window.location.href = `product-detail.html?id=${id}`;
 
 }
 
@@ -633,5 +584,27 @@ window.onclick = function (event) {
 // INIT
 // ======================================================
 
-renderProducts();
+loadProducts();
 updateCartCount();
+
+async function loadProducts() {
+    try {
+        const response = await fetch("api/products.php");
+
+        if (!response.ok) {
+            throw new Error("商品データの取得に失敗しました。");
+        }
+
+        products = await response.json();
+
+        renderProducts();
+
+        console.log(products);
+
+    } catch (error) {
+        console.error(error);
+
+        document.getElementById("productList").textContent =
+            "商品データの取得に失敗しました。";
+    }
+}
